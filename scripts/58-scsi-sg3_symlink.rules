@@ -4,9 +4,6 @@ ACTION=="remove", GOTO="sg3_utils_symlink_end"
 
 SUBSYSTEM!="block", GOTO="sg3_utils_symlink_end"
 
-# Skip symlink generation for multipath
-ENV{DM_MULTIPATH_DEVICE_PATH}=="1", GOTO="sg3_utils_symlink_end"
-
 # Select which identifier to use per default
 # 0: vpd page 0x80 identifier
 ENV{SCSI_IDENT_SERIAL}=="?*", ENV{DEVTYPE}=="disk", SYMLINK+="disk/by-id/scsi-S$env{SCSI_VENDOR}_$env{SCSI_MODEL}_$env{SCSI_IDENT_SERIAL}"
