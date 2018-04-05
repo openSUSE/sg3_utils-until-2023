@@ -416,11 +416,11 @@ getluns()
   for lun in $LLUN ; do
       # Swap LUN number
       l0=0x$lun
-      l1=$(( ($l0 >> 48) & 0xffff ))
-      l2=$(( ($l0 >> 32) & 0xffff ))
-      l3=$(( ($l0 >> 16) & 0xffff ))
-      l4=$(( $l0 & 0xffff ))
-      l0=$(( ( ( ($l4 * 0xffff) + $l3 ) * 0xffff + $l2 ) * 0xffff + $l1 ))
+      l1=$(( (l0 >> 48) & 0xffff ))
+      l2=$(( (l0 >> 32) & 0xffff ))
+      l3=$(( (l0 >> 16) & 0xffff ))
+      l4=$(( l0 & 0xffff ))
+      l0=$(( ( ( (l4 * 0xffff) + l3 ) * 0xffff + l2 ) * 0xffff + l1 ))
       printf "%u\n" $l0
   done
   return 0
@@ -1148,7 +1148,7 @@ if test -x /usr/bin/sg_inq; then
   if test -n "$sg_version"; then
     sg_ver_maj=${sg_version:0:1}
     sg_version=${sg_version##?.}
-    let sg_version+=$((100*$sg_ver_maj))
+    let sg_version+=$((100 * sg_ver_maj))
   fi
   sg_version=${sg_version##0.}
   #echo "\"$sg_version\""
@@ -1201,7 +1201,7 @@ while test ! -z "$opt" -a -z "${opt##-*}"; do
     u) update=1 ;;
     w) opt_idsearch=`seq 0 15` ;;
     -alltargets)  existing_targets=;;
-    -attachpq3) scan_flags=$(($scan_flags|0x1000000)) ;;
+    -attachpq3) scan_flags=$((scan_flags|0x1000000)) ;;
     -channels=*)  arg=${opt#-channels=};opt_channelsearch=`expandlist $arg` ;;
     -color) setcolor ;;
     -flush)       flush=1 ;;
@@ -1212,13 +1212,13 @@ while test ! -z "$opt" -a -z "${opt##-*}"; do
     -ignore-rev) ignore_rev=1;;
     -issue-lip) lipreset=0 ;;
     -issue-lip-wait) lipreset=${opt#-issue-lip-wait=};;
-    -largelun) scan_flags=$(($scan_flags|0x200)) ;;
+    -largelun) scan_flags=$((scan_flags|0x200)) ;;
     -luns=*)  arg=${opt#-luns=};        lunsearch=`expandlist $arg` ;;
     -multipath) mp_enable=1 ;;
     -nooptscan) optscan=0 ;;
     -nosync) sync=0 ;;
     -remove)      remove=1 ;;
-    -reportlun2) scan_flags=$(($scan_flags|0x20000)) ;;
+    -reportlun2) scan_flags=$((scan_flags|0x20000)) ;;
     -resize) resize=1;;
     -sparselun) scan_flags=$((scan_flags|0x40)) ;;
     -sync) sync=2 ;;
@@ -1246,7 +1246,7 @@ if test "$sync" = 1 -a "$remove" = 1; then sync=2; fi
 if test "$sync" = 2; then echo "Syncing file systems"; sync; fi
 if test -w /sys/module/scsi_mod/parameters/default_dev_flags -a $scan_flags != 0; then
   OLD_SCANFLAGS=`cat /sys/module/scsi_mod/parameters/default_dev_flags`
-  NEW_SCANFLAGS=$(($OLD_SCANFLAGS|$scan_flags))
+  NEW_SCANFLAGS=$((OLD_SCANFLAGS|scan_flags))
   if test "$OLD_SCANFLAGS" != "$NEW_SCANFLAGS"; then
     echo -n "Temporarily setting kernel scanning flags from "
     printf "0x%08x to 0x%08x\n" $OLD_SCANFLAGS $NEW_SCANFLAGS
