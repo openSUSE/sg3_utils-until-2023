@@ -3,3 +3,5 @@ Author: Hannes Reinecke <hare@suse.de>
 Date:   Wed May 24 11:21:15 2017 +0200
 
 sg_ses: allow to decode raw data instead of reading from a device
+
+bsc#1077787
