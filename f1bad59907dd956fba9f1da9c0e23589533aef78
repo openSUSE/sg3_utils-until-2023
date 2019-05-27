@@ -1,0 +1,5 @@
+Contains commit 366babc44adc0a99f275edf2f1c700207daf8755
+Author: Hannes Reinecke <hare@suse.de>
+Date:   Wed May 24 11:21:15 2017 +0200
+
+sg_ses: allow to decode raw data instead of reading from a device
