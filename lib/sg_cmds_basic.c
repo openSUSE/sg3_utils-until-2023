@@ -133,6 +133,8 @@ sg_cmds_process_helper(const char * leadin, int mx_di_len, int resid,
     case SG_LIB_CAT_PROTECTION:
     case SG_LIB_CAT_NO_SENSE:
     case SG_LIB_CAT_MISCOMPARE:
+    case SG_LIB_CAT_STANDBY:
+    case SG_LIB_CAT_UNAVAILABLE:
         n = 0;
         break;
     case SG_LIB_CAT_RECOVERED:
@@ -502,6 +504,16 @@ sg_ll_test_unit_ready_progress(int sg_fd, int pack_id, int * progress,
         case SG_LIB_CAT_NO_SENSE:
             ret = 0;
             break;
+	case SG_LIB_CAT_STANDBY:
+	    ret = sense_cat;
+	    if (verbose)
+		pr2serr("Ignoring standby device (sense key)\n");
+	    break;
+	case SG_LIB_CAT_UNAVAILABLE:
+	    ret = sense_cat;
+	    if (verbose)
+		pr2serr("Ignoring unavailable device (sense key)\n");
+	    break;
         default:
             ret = sense_cat;
             break;

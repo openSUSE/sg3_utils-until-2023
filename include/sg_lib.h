@@ -307,6 +307,10 @@ void sg_print_sense(const char * leadin, const unsigned char * sense_buffer,
                                 /*       [sk,asc,ascq: 0xa,*,*] */
 #define SG_LIB_CAT_ABORTED_COMMAND 11 /* interpreted from sense buffer */
                                 /*       [sk,asc,ascq: 0xb,! 0x10,*] */
+#define SG_LIB_CAT_STANDBY 12   /* interpreted from sense buffer
+				   [sk,asc, ascq: 0x2, 0x4, 0xb] */
+#define SG_LIB_CAT_UNAVAILABLE 13 /* interpreted from sense buffer
+				     [sk,asc, ascq: 0x2, 0x4, 0xc] */
 #define SG_LIB_CAT_MISCOMPARE 14 /* sense key, probably verify */
                                 /*       [sk,asc,ascq: 0xe,*,*] */
 #define SG_LIB_CAT_NO_SENSE 20  /* sense data with key of "no sense" */
