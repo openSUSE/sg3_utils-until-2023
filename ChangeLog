@@ -7,6 +7,8 @@ Changelog for pre-release sg3_utils-1.48 [20220103] [svn: r929]
     rev 867 in sg_inq.c from Device_type= to PDT= .
     Change script to use either
   - rev 921 is a bugfix rev on release 1.47 [r919,920]
+  - undo regression in rev 815 that added newline after
+      each LUN in the default (no option) output
   - sg_dd: change uint type to uint32_t
   - sg_pt_dummy.c: remove problematic include
 
