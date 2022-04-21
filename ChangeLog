@@ -11,6 +11,8 @@ Changelog for pre-release sg3_utils-1.48 [20220103] [svn: r929]
       each LUN in the default (no option) output
   - sg_dd: change uint type to uint32_t
   - sg_pt_dummy.c: remove problematic include
+  - https://github.com/doug-gilbert/sg3_utils/pull/17
+    applied with tweaks: add timeout parameter [svn:r946]
 
 Changelog for released sg3_utils-1.47 [20211110] [svn: r919]
   - sg_rep_zones: add support for REPORT ZONE DOMAINS and
