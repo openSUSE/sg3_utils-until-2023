@@ -1,4 +1,4 @@
-.TH RESCAN-SCSI-BUS.SH "1" "January 2016" "rescan-scsi-bus.sh" "User Commands"
+.TH RESCAN\-SCSI\-BUS.SH "1" "April 2022" "rescan\-scsi\-bus.sh" "User Commands"
 .SH NAME
 rescan-scsi-bus.sh \- script to add and remove SCSI devices without rebooting
 .SH SYNOPSIS
@@ -9,8 +9,8 @@ rescan-scsi-bus.sh \- script to add and remove SCSI devices without rebooting
 [\fI\-\-hosts=HLIST\fR] [\fI\-\-ids=TLIST\fR] [\fI\-\-issue\-lip\fR]
 [\fI\-l\fR] [\fI\-L NUM\fR] [\fI\-\-luns=LLIST\fR] [\fI\-\-multipath\fR]
 [\fI\-\-nooptscan\fR] [\fI\-\-remove\fR] [\fI\-\-removelun2\fR]
-[\fI\-\-resize\fR] [\fI\-\-sparselun\fR] [\fI\-\-sync\fR] [\fI\-\-update\fR]
-[\fI\-\-version\fR] [\fI\-\-wide\fR] [\fIHOST1 \fR[\fIHOST2 \fR...]]
+[\fI\-\-resize\fR] [\fI\-\-sparselun\fR] [\fI\-\-sync\fR] [\fI\-\-timeout=SECS\fR]
+[\fI\-\-update\fR] [\fI\-\-version\fR] [\fI\-\-wide\fR] [\fIHOST1 \fR[\fIHOST2 \fR...]]
 .SH OPTIONS
 .TP
 \fB\-a\fR, \fB\-\-alltargets\fR
@@ -84,6 +84,10 @@ tell kernel to support sparse LUN numbering
 .TP
 \fB\-\-sync\fR, \fB\-\-nosync\fR
 issue a sync / no sync [default: sync if remove]
+.TP
+\fB\-t\fR, \fB\-\-timeout=SECS\fR
+timeout for testing if device is online. Test is skipped if 0 [default:
+30 (seconds)]
 .TP
 \fB\-u\fR, \fB\-\-update\fR
 look for existing disks that have been remapped

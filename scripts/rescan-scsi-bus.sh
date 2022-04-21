@@ -265,7 +265,7 @@ testonline ()
   RC=$?
 
   # Handle in progress of becoming ready and unit attention
-  while test $RC = 2 -o $RC = 6 && test $ctr -le 30; do
+  while [ $RC = 2 -o $RC = 6 ] && [ $ctr -lt $timeout ] ; do
     if test $RC = 2 -a "$RMB" != "1"; then echo -n "."; let LN+=1; sleep 1
     else sleep 0.02; fi
     let ctr+=1
@@ -1094,6 +1094,7 @@ if test @$1 = @--help -o @$1 = @-h -o @$1 = @-?; then
     echo " -m      update multipath devices           [default: disabled]"
     echo " -r      enables removing of devices        [default: disabled]"
     echo " -s      look for resized disks and reload associated multipath devices, if applicable"
+    echo " -t SECS timeout for testing if device is online. Test is skipped if 0 [default: 30]"
     echo " -u      look for existing disks that have been remapped"
     echo " -V      print version date then exit"
     echo " -w      scan for target device IDs 0--15   [default: 0--7]"
@@ -1118,6 +1119,7 @@ if test @$1 = @--help -o @$1 = @-h -o @$1 = @-?; then
     echo "--resize:        same as -s"
     echo "--sparselun:     Tell kernel to support sparse LUN numbering"
     echo "--sync/nosync:   Issue a sync / no sync [default: sync if remove]"
+    echo "--timeout=SECS:  same as -t"
     echo "--update:        same as -u"
     echo "--version:       same as -V"
     echo "--wide:          same as -w"
@@ -1179,6 +1181,7 @@ sync=1
 existing_targets=1
 mp_enable=
 lipreset=-1
+timeout=30
 declare -i scan_flags=0
 ignore_rev=0
 
@@ -1197,6 +1200,7 @@ while test ! -z "$opt" -a -z "${opt##-*}"; do
     c) opt_channelsearch="0 1" ;;
     r) remove=1 ;;
     s) resize=1; mp_enable=1 ;;
+    t) timeout=$2; shift ;;
     i) lipreset=0 ;;
     I) shift; lipreset=$opt ;;
     u) update=1 ;;
@@ -1212,13 +1216,14 @@ while test ! -z "$opt" -a -z "${opt##-*}"; do
     -color) setcolor ;;
     -nooptscan) optscan=0 ;;
     -issue-lip) lipreset=0 ;;
-    -issue-lip-wait) lipreset=${opt#-issue-lip-wait=};;
+    -issue-lip-wait=*) lipreset=${opt#-issue-lip-wait=};;
     -sync) sync=2 ;;
     -nosync) sync=0 ;;
     -multipath) mp_enable=1 ;;
     -attachpq3) scan_flags=$(($scan_flags|0x1000000)) ;;
     -reportlun2) scan_flags=$(($scan_flags|0x20000)) ;;
     -resize) resize=1;;
+    -timeout=*) timeout=${opt#-timeout=};;
     -largelun) scan_flags=$(($scan_flags|0x200)) ;;
     -sparselun) scan_flags=$((scan_flags|0x40)) ;;
     -update) update=1;;
