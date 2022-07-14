@@ -346,6 +346,7 @@ loop_turs(int sg_fd, struct loop_res_t * resp, struct opts_t * op)
                 case SG_LIB_CAT_NOT_READY:
                     ++resp->num_errs;
                     if (1 ==  op->do_number) {
+                        resp->ret = sense_cat;
                         printf("device not ready\n");
                         resp->reported = true;
                     }
@@ -523,6 +524,9 @@ main(int argc, char * argv[])
             (! resp->reported))
             printf("Completed %d Test Unit Ready commands with %d errors\n",
                    op->do_number, resp->num_errs);
+        if (1 == op->do_number)
+            ret = resp->ret;
+
     }
     sg_cmds_close_device(sg_fd);
     return (ret >= 0) ? ret : SG_LIB_CAT_OTHER;
